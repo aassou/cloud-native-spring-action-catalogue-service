@@ -1,0 +1,13 @@
+- Thread per request : thread will block until operations are complete -> synchronous blocking
+
+- Tomcat is initialized with a thread pool that's used to manage all incoming HTTP requests.
+
+- SpringMVC works with a concept called content negotiation, which is the process that it let's the server and client
+agree on the type of exchanged content, like JSON in our case, SpringMVC relies on HttpMessageConverter bean to convert
+the returned object, into a specific representation the client supports. The client can inform the server about which
+types it supports through the "Accept" header in the HTTP request.
+
+- To define validation constraints you can use Java Bean Validation API.
+
+- HATEOAS: Hypermedia As The Engine Of Application State, it represents the highest level of API maturity according
+to Richardson's Maturity Model.

@@ -1,0 +1,52 @@
+# Gradle command:
+
+$ ./gradelw test
+$ ./gradelw bootRun
+$ ./gradelw bootBuildImage --> creates a local Docker image without a Dockerfile but using The "Paketo Build Pack" -> Cloud Native Buildpacks
+$ ./gradelw bootJar        --> package the app as a JAR file
+
+$ java -jar builds/libs/jar-filename.jar --> run the JAR file
+
+# Install Minikube:
+
+$ curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+$ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+# Start Minikube
+$ minikube start
+
+# Load Image with Minikube
+$ minikube image load <image-name>
+$ minikube image load catalog-service:0.0.1-SNAPSHOT
+
+# Create an alias for minikube kubectl
+$ echo 'alias kubectl="minikube kubectl --"' >> ~/.bashrc
+$ source ~/.bashrc
+
+# Create a deployment
+$ kubectl create deployment catalog-service --image=catalog-service:0.0.1-SNAPSHOT
+
+# Get deployment
+$ kubectl get deployment
+
+# Check logs
+$ kubectl logs deployment/catalog-service
+
+# Exposing Application to Minikube/K8s
+
+By default, applications running in Kubernetes are not accessible. Let’s fix that. First,
+you can expose Catalog Service to the cluster through a Service resource by running
+the following command:
+
+$ kubectl expose deployment catalog-service --name=catalog-service --port=8080
+
+# Traffic forwarding
+
+You can then forward the traffic from a local port on your computer (for example,
+8000) to the port exposed by the Service inside the cluster (8080)
+
+$ kubectl port-forward service/catalog-service 8000:8080
+$ kubectl delete deployment catalog-service
+$ kubectl delete service catalog-service
+$ minikube stop
+
